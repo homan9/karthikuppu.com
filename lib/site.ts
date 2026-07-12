@@ -2,7 +2,9 @@
 // so that Open Graph / Twitter image URLs resolve to absolute URLs.
 export const site = {
   name: "Karthik Uppu",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://karthikuppuluri.com",
+  // Must match the domain the site is actually served from, so preview images
+  // (absolute URLs) resolve. Override per-deploy with NEXT_PUBLIC_SITE_URL.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://karthikuppu.com",
   description: "",
   // Optional: your X/Twitter handle, used for twitter:creator.
   twitter: "",
