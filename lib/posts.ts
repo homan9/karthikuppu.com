@@ -9,7 +9,6 @@ export type PostMeta = {
   title: string;
   description: string;
   date: string; // ISO string, e.g. "2026-01-24"
-  heroImageSrc?: string; // path under /public, e.g. "/posts/village.png"
 };
 
 export function getPostSlugs(): string[] {
@@ -34,7 +33,6 @@ export function getPostMeta(slug: string): PostMeta | null {
     title: String(data.title ?? slug),
     description: String(data.description ?? ""),
     date: data.date ? String(data.date) : "",
-    heroImageSrc: data.heroImageSrc ? String(data.heroImageSrc) : undefined,
   };
 }
 

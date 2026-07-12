@@ -1,0 +1,38 @@
+/* Consistent, compact padding on both mobile and desktop so the graph fills
+   most of the scene. */
+.wrap {
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The curve is revealed left-to-right by wiping this clip rect open. */
+.revealRect {
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+
+.playing .revealRect {
+  animation: reveal 2.8s linear forwards;
+}
+
+@keyframes reveal {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revealRect {
+    transform: scaleX(1);
+  }
+  .playing .revealRect {
+    animation: none;
+  }
+}

@@ -24,9 +24,8 @@ export async function generateMetadata({
   const meta = getPostMeta(slug);
   if (!meta) return {};
 
-  const images = meta.heroImageSrc
-    ? [{ url: meta.heroImageSrc, width: 1200, height: 630, alt: meta.title }]
-    : undefined;
+  // Previews show the profile pic (square) alongside the title + description.
+  const images = [{ ...site.ogImage, alt: site.name }];
 
   return {
     title: meta.title,
@@ -40,7 +39,7 @@ export async function generateMetadata({
       images,
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: meta.title,
       description: meta.description,
       images,

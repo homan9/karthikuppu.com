@@ -8,5 +8,6 @@
 export { VizScene } from "./VizScene";
 export { AvatarOrbit } from "./AvatarOrbit";
 export { CapTable } from "./CapTable";
+export { ValuationGraph } from "./ValuationGraph";
 export { EquityAcrossLife } from "./EquityAcrossLife";
 export { CompoundingLoop } from "./CompoundingLoop";

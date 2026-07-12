@@ -31,11 +31,13 @@ export const metadata: Metadata = {
     title: site.name,
     description: site.description,
     url: site.url,
+    images: [{ ...site.ogImage, alt: site.name }],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: site.name,
     description: site.description,
+    images: [{ ...site.ogImage, alt: site.name }],
     ...(site.twitter ? { creator: site.twitter } : {}),
   },
 };
