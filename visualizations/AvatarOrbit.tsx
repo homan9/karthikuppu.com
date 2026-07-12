@@ -3,6 +3,7 @@
 /* Demo avatars are remote; plain <img> avoids next/image remote-domain config. */
 /* eslint-disable @next/next/no-img-element */
 
+import { useEffect, useRef, useState } from "react";
 import { VizScene } from "./VizScene";
 import styles from "./AvatarOrbit.module.css";
 
@@ -49,17 +50,64 @@ export function AvatarOrbit({
   const box = radius * 2 + avatarSize; // fits the outermost avatars
   const count = villagerSrcs.length;
 
+  // Hold the orbit hidden until every avatar has decoded, then fade the whole
+  // thing in together — no piecemeal "half-loaded" appearance on first visit.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const root = wrapRef.current;
+    if (!root) return;
+    const imgs = Array.from(root.querySelectorAll("img"));
+    if (imgs.length === 0) {
+      setReady(true);
+      return;
+    }
+    let remaining = imgs.length;
+    const done = () => {
+      remaining -= 1;
+      if (remaining <= 0) setReady(true);
+    };
+    const cleanups: (() => void)[] = [];
+    imgs.forEach((img) => {
+      // Already cached / decoded.
+      if (img.complete && img.naturalWidth > 0) {
+        done();
+        return;
+      }
+      // `error` also resolves so a missing image never hangs the reveal.
+      img.addEventListener("load", done, { once: true });
+      img.addEventListener("error", done, { once: true });
+      cleanups.push(() => {
+        img.removeEventListener("load", done);
+        img.removeEventListener("error", done);
+      });
+    });
+    return () => cleanups.forEach((c) => c());
+  }, []);
+
   return (
     <VizScene replayable={false} label="A village orbiting a person">
-      <div className={styles.wrap} style={{ width: box, height: box }}>
+      <div
+        ref={wrapRef}
+        className={styles.wrap}
+        style={{
+          width: box,
+          height: box,
+          opacity: ready ? 1 : 0,
+          transition: "opacity 0.6s ease",
+        }}
+      >
         <div
           className={styles.ring}
           style={{ animationDuration: `${durationSec}s` }}
         >
           {villagerSrcs.map((src, i) => {
             const angle = (2 * Math.PI * i) / count - Math.PI / 2; // start at top
-            const x = radius * Math.cos(angle);
-            const y = radius * Math.sin(angle);
+            // Round so near-zero values don't serialize as scientific notation
+            // (e.g. 6.1e-15), which is invalid in CSS and breaks hydration.
+            const x = Math.round(radius * Math.cos(angle) * 1000) / 1000;
+            const y = Math.round(radius * Math.sin(angle) * 1000) / 1000;
             return (
               <span
                 key={i}
@@ -74,6 +122,7 @@ export function AvatarOrbit({
                   className={styles.face}
                   src={src}
                   alt=""
+                  fetchPriority="high"
                   style={{ animationDuration: `${durationSec}s` }}
                 />
               </span>
@@ -85,6 +134,7 @@ export function AvatarOrbit({
           className={styles.owner}
           src={ownerPicSrc}
           alt=""
+          fetchPriority="high"
           style={{ width: ownerSize, height: ownerSize }}
         />
       </div>

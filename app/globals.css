@@ -167,14 +167,16 @@ h6 {
 
 .landing__photo {
   width: 100%;
-  max-width: 100px; /* profile pic — square, capped at 300px */
+  max-width: 100px;
+  aspect-ratio: 1 / 1; /* the box is always square... */
 }
 
 .landing__photo-inner {
   position: relative;
-  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: 100%; /* ...so the inner fills a square, and 50% is a true circle */
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 50%;
 }
 
 .landing__photo-inner img {
