@@ -1,0 +1,157 @@
+/* Transparent frame: its padding is the gutter where the scene color shows
+   around the card (1.5rem mobile, 2.5rem desktop). */
+.frame {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .frame {
+    padding: 4.5rem;
+  }
+}
+
+/* The personal token — a white card sitting within the scene. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1.25rem;
+  border-radius: 16px;
+  /* background: #ffffff; */
+}
+
+/* Header: identity on the left, valuation on the right. */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.nameBlock {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 550;
+  color: var(--ink-strong);
+}
+
+.handle {
+  font-size: 0.875rem;
+  color: var(--caption);
+}
+
+.valuation {
+  flex: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(0, 191, 76, 0.14);
+  color: #00bf4c;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  /* Fades in once; then stays fixed while the number changes inside it. */
+  animation: fade-in 0.3s ease both;
+}
+
+.bio {
+  color: var(--ink);
+  margin-top: -0.35rem;
+}
+
+/* Cap table rows */
+.rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: -0.5rem; /* cancels the first row's top margin */
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  height: 42px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  /* Expands vertically into place as it's added. */
+  animation: row-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.avatar {
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ececea;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rowName {
+  flex: none;
+  font-weight: 480;
+  color: var(--ink-strong);
+}
+
+/* Subtle line linking the name to the percentage, reinforcing the "row". */
+.leader {
+  flex: 1 1 auto;
+  min-width: 1rem;
+  height: 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.rowPct {
+  flex: none;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes row-in {
+  from {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    height: 42px;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .valuation {
+    animation: none;
+  }
+}

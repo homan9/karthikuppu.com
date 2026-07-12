@@ -1,26 +1,394 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   Site styles for the landing page and the essay page.
+
+   This is the single file to tweak for page-level look & feel. Reusable
+   components own their own CSS:
+     - Essay list item   → components/EssayList.module.css
+     - Visualization      → visualizations/VizScene.module.css + viz.module.css
+   Those components still read the shared design tokens defined below.
+=========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Design tokens (shared palette — components reference these too)
+--------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fdfdfc; /* barely-warm white */
+  --ink: #1c1c1a; /* body text — slightly less than black, feels natural */
+  --ink-strong: #0b0b0a; /* titles / emphasis — near black */
+  --caption: #a6a6a1; /* dates, secondary — soft "caption" gray */
+  --hairline: #ebebe7; /* faint dividers */
+  --viz-bg: #f5f5f2; /* visualization panel background */
+  --accent: #4b4b46; /* hover ink */
+
+  /* Inline prose links — blue text with a faded-blue underline that fills in
+     on hover. */
+  --link: #2563eb;
+  --link-underline: color-mix(in srgb, var(--link) 32%, transparent);
+
+  /* Fixed home-corner profile pic */
+  --corner-size: 48px;
+  --corner-margin: 24px;
+  --top-fade-height: 112px; /* how far the essay-page top fade reaches */
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-caption: var(--caption);
+  --color-hairline: var(--hairline);
+  --font-sans: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---------------------------------------------------------------------------
+   Base typography — Inter variable, weight 420, one size for everything
+--------------------------------------------------------------------------- */
+html {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  font-size: 1rem; /* one size for the whole site — every single element */
+  font-weight: 435;
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+}
+
+/* Nothing is bigger than anything else: headings inherit the base size.
+   Hierarchy comes only from weight and color. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+::selection {
+  background: #ecece4;
+}
+
+/* ---------------------------------------------------------------------------
+   Page shell — the centered reading column both pages share
+--------------------------------------------------------------------------- */
+.page {
+  margin: 0 auto;
+  width: 100%;
+  /* 550px text column + 1.5rem padding each side (box-sizing: border-box). */
+  max-width: 600px;
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding: 7rem 1.5rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   "Cards being laid down" — subtle staggered entrance for page content.
+   Applied to a container; its direct children animate in one after another.
+--------------------------------------------------------------------------- */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal > * {
+  opacity: 0;
+  animation: card-in 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.reveal > *:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.reveal > *:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.reveal > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.reveal > *:nth-child(4) {
+  animation-delay: 0.23s;
+}
+.reveal > *:nth-child(5) {
+  animation-delay: 0.3s;
+}
+.reveal > *:nth-child(6) {
+  animation-delay: 0.37s;
+}
+.reveal > *:nth-child(7) {
+  animation-delay: 0.44s;
+}
+.reveal > *:nth-child(8) {
+  animation-delay: 0.51s;
+}
+.reveal > *:nth-child(9) {
+  animation-delay: 0.58s;
+}
+.reveal > *:nth-child(10) {
+  animation-delay: 0.65s;
+}
+.reveal > *:nth-child(n + 11) {
+  animation-delay: 0.72s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal > * {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Landing page
+--------------------------------------------------------------------------- */
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.landing__photo {
+  width: 100%;
+  max-width: 100px; /* profile pic — square, capped at 300px */
+}
+
+.landing__photo-inner {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.landing__photo-inner img {
+  object-fit: cover;
+}
+
+.landing__name {
+  font-weight: 480;
+  color: var(--ink-strong);
+}
+
+.landing__contact {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.landing__contact:hover {
+  text-decoration-color: var(--link);
+}
+
+/* ---------------------------------------------------------------------------
+   Essay page — header
+--------------------------------------------------------------------------- */
+.essay-title {
+  font-weight: 550;
+  color: var(--ink-strong);
+}
+
+.essay-date {
+  margin-top: 0.25rem;
+  color: var(--caption);
+}
+
+.essay-article {
+  margin-top: 2.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Essay body — every text is the same size. Distinction is color + weight only.
+--------------------------------------------------------------------------- */
+.essay-body {
+  color: var(--ink);
+}
+
+.essay-body > * + * {
+  margin-top: 1.15em;
+}
+
+.essay-body h1,
+.essay-body h2,
+.essay-body h3,
+.essay-body h4 {
+  font-weight: 500;
+  color: var(--ink-strong);
+  margin-top: 3em;
+}
+
+/* Bold matches the weight of headers/titles. */
+.essay-body strong {
+  font-weight: 550;
+  color: var(--ink-strong);
+}
+
+.essay-body a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.essay-body a:hover {
+  text-decoration-color: var(--link);
+}
+
+.essay-body ul,
+.essay-body ol {
+  padding-left: 1.25em;
+}
+
+.essay-body ul {
+  list-style: disc;
+}
+
+.essay-body ol {
+  list-style: decimal;
+}
+
+.essay-body li + li {
+  margin-top: 0.4em;
+}
+
+.essay-body blockquote {
+  padding-left: 1em;
+  border-left: 2px solid var(--hairline);
+  color: var(--accent);
+}
+
+/* Markdown images only (they render inside a <p>). Scoped so it never leaks
+   into visualization avatars/images, which own their own styling. */
+.essay-body p img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.essay-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--viz-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+}
+
+/* Divider — same hairline as the essay list dividers, with generous breathing room. */
+.essay-body hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: 3.5rem 0;
+}
+
+/* Footnotes (GitHub-style, from remark-gfm): a quieter, smaller section,
+   separated from the body by the same hairline divider as everything else
+   (rendered automatically via this border — no <hr> needed). */
+.essay-body .footnotes {
+  margin-top: 3.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.875rem;
+  font-weight: 460;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Drop the visible "Footnotes" heading — the divider does the separating.
+   Kept in the DOM but visually hidden, so screen readers still announce it. */
+.essay-body .footnotes h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.essay-body .footnotes ol {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Essay page top bar — a full-width, fixed gradient that fades the background
+   over the top of the viewport. Content scrolling up dissolves smoothly into
+   the background, so the fixed profile pic reads cleanly on top of anything.
+--------------------------------------------------------------------------- */
+.top-fade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--top-fade-height);
+  z-index: 40;
+  pointer-events: none;
+  /* Eased multi-stop fade so it's smooth, not a hard band. */
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    var(--background) 20%,
+    color-mix(in srgb, var(--background) 72%, transparent) 46%,
+    color-mix(in srgb, var(--background) 32%, transparent) 72%,
+    transparent 100%
+  );
+}
+
+/* Extra top room so the essay title sits just below the fade on first load,
+   then dissolves into it as you scroll. */
+.essay-page {
+  padding-top: calc(var(--top-fade-height) + 0.75rem);
+}
+
+@media (min-width: 640px) {
+  .essay-page {
+    padding-top: calc(var(--top-fade-height) + 2rem);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Home corner — the circular profile pic that sits fixed at the top-left of
+   the essay page and links back home. It rides above the top fade.
+--------------------------------------------------------------------------- */
+.home-corner {
+  position: fixed;
+  top: var(--corner-margin);
+  left: var(--corner-margin);
+  z-index: 50;
+  display: block;
+  width: var(--corner-size);
+  height: var(--corner-size);
+  border-radius: 9999px;
+}
+
+.home-corner__img {
+  display: block;
+  width: var(--corner-size);
+  height: var(--corner-size);
+  border-radius: 9999px;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.home-corner:hover .home-corner__img {
+  transform: scale(1.05);
 }

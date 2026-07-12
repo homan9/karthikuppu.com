@@ -1,0 +1,79 @@
+.figure {
+  margin: 2rem 0;
+}
+
+.scene {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--viz-bg);
+}
+
+.caption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--caption);
+}
+
+/* Symmetric padding keeps the viz body visually centered. */
+.body {
+  padding: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .body {
+    padding: 2rem;
+  }
+}
+
+/* Only when there's a replay button: extra bottom room so it never covers the
+   viz body. */
+.withReplay {
+  padding-bottom: 3rem;
+}
+
+/* Full-bleed: the child fills the panel and controls its own insets. */
+.flush {
+  padding: 0;
+}
+
+.replay {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  color: var(--caption);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Appears only on hover (or keyboard focus). */
+.scene:hover .replay,
+.replay:focus-visible {
+  opacity: 1;
+}
+
+.replay:hover {
+  color: var(--ink-strong);
+}
+
+/* Touch devices have no hover, so the button is always visible there. */
+@media (hover: none) {
+  .replay {
+    opacity: 1;
+  }
+}

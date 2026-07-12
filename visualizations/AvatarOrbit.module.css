@@ -1,0 +1,62 @@
+.wrap {
+  position: relative;
+  margin: 0 auto;
+}
+
+/* The ring holds the villagers and spins continuously. */
+.ring {
+  position: absolute;
+  inset: 0;
+  animation-name: orbit-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* size + orbit position set inline (they depend on props) */
+}
+
+.face {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Counter-spins at the same rate as the ring so faces stay upright. */
+  animation-name: orbit-counter;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.owner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-counter {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring,
+  .face {
+    animation: none;
+  }
+}
