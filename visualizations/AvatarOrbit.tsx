@@ -36,10 +36,22 @@ type AvatarOrbitProps = {
 };
 
 /**
- * A person (center) surrounded by their village — six profile pics orbiting the
+ * A person (center) surrounded by their village — profile pics orbiting the
  * central one. Loops forever, so VizScene shows no replay control.
  */
-export function AvatarOrbit({
+export function AvatarOrbit(props: AvatarOrbitProps) {
+  return (
+    <VizScene replayable={false} label="A village orbiting a person">
+      <AvatarOrbitBody {...props} />
+    </VizScene>
+  );
+}
+
+/**
+ * Just the orbit visuals, with no VizScene panel — so it can be rendered
+ * full-bleed (e.g. the /capture page) as well as inside a scene.
+ */
+export function AvatarOrbitBody({
   ownerPicSrc = DEMO_OWNER,
   villagerSrcs = DEMO_VILLAGERS,
   radius = 100,
@@ -87,57 +99,55 @@ export function AvatarOrbit({
   }, []);
 
   return (
-    <VizScene replayable={false} label="A village orbiting a person">
+    <div
+      ref={wrapRef}
+      className={styles.wrap}
+      style={{
+        width: box,
+        height: box,
+        opacity: ready ? 1 : 0,
+        transition: "opacity 0.6s ease",
+      }}
+    >
       <div
-        ref={wrapRef}
-        className={styles.wrap}
-        style={{
-          width: box,
-          height: box,
-          opacity: ready ? 1 : 0,
-          transition: "opacity 0.6s ease",
-        }}
+        className={styles.ring}
+        style={{ animationDuration: `${durationSec}s` }}
       >
-        <div
-          className={styles.ring}
-          style={{ animationDuration: `${durationSec}s` }}
-        >
-          {villagerSrcs.map((src, i) => {
-            const angle = (2 * Math.PI * i) / count - Math.PI / 2; // start at top
-            // Round so near-zero values don't serialize as scientific notation
-            // (e.g. 6.1e-15), which is invalid in CSS and breaks hydration.
-            const x = Math.round(radius * Math.cos(angle) * 1000) / 1000;
-            const y = Math.round(radius * Math.sin(angle) * 1000) / 1000;
-            return (
-              <span
-                key={i}
-                className={styles.slot}
-                style={{
-                  width: avatarSize,
-                  height: avatarSize,
-                  transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
-                }}
-              >
-                <img
-                  className={styles.face}
-                  src={src}
-                  alt=""
-                  fetchPriority="high"
-                  style={{ animationDuration: `${durationSec}s` }}
-                />
-              </span>
-            );
-          })}
-        </div>
-
-        <img
-          className={styles.owner}
-          src={ownerPicSrc}
-          alt=""
-          fetchPriority="high"
-          style={{ width: ownerSize, height: ownerSize }}
-        />
+        {villagerSrcs.map((src, i) => {
+          const angle = (2 * Math.PI * i) / count - Math.PI / 2; // start at top
+          // Round so near-zero values don't serialize as scientific notation
+          // (e.g. 6.1e-15), which is invalid in CSS and breaks hydration.
+          const x = Math.round(radius * Math.cos(angle) * 1000) / 1000;
+          const y = Math.round(radius * Math.sin(angle) * 1000) / 1000;
+          return (
+            <span
+              key={i}
+              className={styles.slot}
+              style={{
+                width: avatarSize,
+                height: avatarSize,
+                transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
+              }}
+            >
+              <img
+                className={styles.face}
+                src={src}
+                alt=""
+                fetchPriority="high"
+                style={{ animationDuration: `${durationSec}s` }}
+              />
+            </span>
+          );
+        })}
       </div>
-    </VizScene>
+
+      <img
+        className={styles.owner}
+        src={ownerPicSrc}
+        alt=""
+        fetchPriority="high"
+        style={{ width: ownerSize, height: ownerSize }}
+      />
+    </div>
   );
 }

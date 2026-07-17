@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   // up otherwise makes Turbopack infer the parent as the root, which mismatches
   // the client manifest paths (breaks dev with a global-error.js manifest error).
   turbopack: { root: import.meta.dirname },
+  devIndicators: false
 };
 
 const withMDX = createMDX({
