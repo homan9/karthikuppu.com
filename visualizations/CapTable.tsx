@@ -21,7 +21,7 @@ const OWNER = {
 const SHAREHOLDERS: (Holder & { pct: number })[] = [
   { name: "Bob", src: "/avatars/jane-1.png", pct: 3 },
   { name: "Cindy", src: "/avatars/jane-2.png", pct: 1 },
-  { name: "Dan", src: "/avatars/jane-3.png", pct: 1 },
+  { name: "Dan", src: "/avatars/jane-5.png", pct: 1 },
   { name: "Ella", src: "/avatars/jane-4.png", pct: 1 },
 ];
 
