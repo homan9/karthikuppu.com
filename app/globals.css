@@ -6,7 +6,8 @@
    This is the single file to tweak for page-level look & feel. Reusable
    components own their own CSS:
      - Essay list item   → components/EssayList.module.css
-     - Visualization      → visualizations/VizScene.module.css + viz.module.css
+     - Visualization panel → visualizations/VizScene.module.css
+       (scene animations are frame-driven Remotion compositions in remotion/)
    Those components still read the shared design tokens defined below.
 =========================================================================== */
 

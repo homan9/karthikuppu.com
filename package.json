@@ -6,19 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "studio": "remotion studio remotion/index.ts",
+    "render": "remotion render remotion/index.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.10",
+    "@remotion/bundler": "^4.0.491",
+    "@remotion/cli": "^4.0.491",
+    "@remotion/google-fonts": "^4.0.491",
+    "@remotion/player": "^4.0.491",
+    "@remotion/renderer": "^4.0.491",
     "@types/mdx": "^2.0.14",
     "gray-matter": "^4.0.3",
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "remark-frontmatter": "^5.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "remotion": "^4.0.491"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

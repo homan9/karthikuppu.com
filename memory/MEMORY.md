@@ -1,0 +1,1 @@
+- [Videos / Remotion architecture](videos-remotion-architecture.md) — how animated scenes are shared between essays (chromeless Player) and MP4 export (/videos/<id>)

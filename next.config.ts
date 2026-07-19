@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
   // up otherwise makes Turbopack infer the parent as the root, which mismatches
   // the client manifest paths (breaks dev with a global-error.js manifest error).
   turbopack: { root: import.meta.dirname },
-  devIndicators: false
+  devIndicators: false,
+  // The Remotion renderer/bundler ship native binaries and spawn headless
+  // Chrome — they must run as real Node modules, never bundled by Turbopack.
+  serverExternalPackages: ["@remotion/renderer", "@remotion/bundler"],
 };
 
 const withMDX = createMDX({
