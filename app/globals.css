@@ -186,8 +186,31 @@ h6 {
   object-fit: cover;
 }
 
+.landing__name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
 .landing__name {
   font-weight: 480;
+  color: var(--ink-strong);
+}
+
+.landing__divider {
+  width: 1px;
+  height: 1em;
+  background: var(--hairline);
+}
+
+.landing__x {
+  display: inline-flex;
+  align-items: center;
+  color: var(--caption);
+  transition: color 0.2s ease;
+}
+
+.landing__x:hover {
   color: var(--ink-strong);
 }
 

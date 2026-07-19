@@ -19,11 +19,11 @@
   transition: color 0.25s ease;
 }
 
-/* Spotlight hover: hovering the list dims every title, and the one under the
-   cursor lifts back to full ink. (The :hover-on-hover selector outranks the
-   dim rule, so the highlighted item wins.) */
+/* Spotlight: at rest every title is active (full ink). Hovering the list dims
+   the others to a soft gray, and the one under the cursor lifts to strong ink.
+   With nothing hovered, all stay active. */
 .list:hover .link {
-  color: var(--caption);
+  color: #8f8f8a;
 }
 
 .list:hover .link:hover {
