@@ -18,14 +18,17 @@ export const CAP_SHAREHOLDERS: CapHolder[] = [
 // once the first shareholder joins, then climbs.
 export const CAP_VALUATIONS = [10, 10, 20, 50, 100];
 
-// Theme tokens, inlined so the composition renders identically in the essay
-// (where these come from global CSS vars) and in the render bundle (where the
-// global stylesheet does not exist).
+// Theme tokens pulled from the shared TS palette (remotion/theme.ts), so the
+// composition renders identically in the essay (where these come from global
+// CSS vars) and in the render bundle (where the global stylesheet does not
+// exist). The green pair is scene-specific and stays local.
+import { THEME } from "../theme";
+
 export const CAP_COLORS = {
-  ink: "#1c1c1a",
-  inkStrong: "#0b0b0a",
-  caption: "#a6a6a1",
-  hairline: "#ebebe7",
+  ink: THEME.ink,
+  inkStrong: THEME.inkStrong,
+  caption: THEME.caption,
+  hairline: THEME.hairline,
   green: "#00bf4c",
   greenBg: "rgba(0, 191, 76, 0.14)",
 };

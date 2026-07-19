@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Player, type PlayerRef } from "@remotion/player";
 import { getSceneComponent } from "@/remotion/registry";
 import type { SceneMeta } from "@/remotion/scenes.meta";
+import { THEME } from "@/remotion/theme";
 import styles from "./VideoInspector.module.css";
 
 /**
@@ -26,8 +27,9 @@ export function VideoInspector({ meta }: { meta: SceneMeta }) {
   const [error, setError] = useState<string | null>(null);
 
   const last = meta.durationInFrames - 1;
-  // Solid background so the inspector matches the exported video exactly.
-  const exportBg = "#f5f5f2";
+  // Solid background so the inspector matches the exported video exactly. Same
+  // near-white surface as the essay viz panels (--viz-bg), via the shared token.
+  const exportBg = THEME.vizBg;
   const inputProps = { ...meta.defaultProps, background: exportBg };
 
   // Mirror the player's frame + play state into React so the UI can display them.

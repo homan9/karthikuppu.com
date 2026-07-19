@@ -20,7 +20,9 @@
   --ink-strong: #0b0b0a; /* titles / emphasis — near black */
   --caption: #a6a6a1; /* dates, secondary — soft "caption" gray */
   --hairline: #ebebe7; /* faint dividers */
-  --viz-bg: #f5f5f2; /* visualization panel background */
+  --viz-bg: #fbfbfa; /* visualization panel — near page-white, defined by its edge */
+  --viz-edge: #eeeeea; /* hairline that separates a viz panel from the page */
+  --code-bg: #f5f5f2; /* inline code pills — kept gray enough to read as a chip */
   --accent: #4b4b46; /* hover ink */
 
   /* Inline prose links — blue text with a faded-blue underline that fills in
@@ -290,7 +292,7 @@ h6 {
 .essay-body code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.9em;
-  background: var(--viz-bg);
+  background: var(--code-bg);
   padding: 0.1em 0.35em;
   border-radius: 5px;
 }

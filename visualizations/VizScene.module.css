@@ -7,6 +7,8 @@
   overflow: hidden;
   border-radius: 16px;
   background: var(--viz-bg);
+  /* Panel is nearly page-white, so a hairline edge does the separating. */
+  border: 1px solid var(--viz-edge);
 }
 
 .caption {
