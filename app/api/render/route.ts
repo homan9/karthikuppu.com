@@ -9,7 +9,10 @@ import { getSceneMeta } from "@/remotion/scenes.meta";
 // renders the requested composition with the given props in headless Chrome,
 // and streams the file back as a download. Runs only on your machine — no cloud.
 export const runtime = "nodejs";
-export const maxDuration = 600;
+// This exporter is a local-only tool (headless Chrome render); maxDuration only
+// governs Vercel serverless, where the hobby plan caps at 300s. Kept at the
+// ceiling so deploys pass — it's a no-op during local `next dev` / `next start`.
+export const maxDuration = 300;
 
 let bundlePromise: Promise<string> | null = null;
 function getServeUrl() {
