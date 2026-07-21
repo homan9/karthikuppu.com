@@ -3,7 +3,7 @@
 
 export type CapHolder = { name: string; src: string; pct: number };
 
-export const CAP_OWNER = { name: "Jane", handle: "@jane", src: "avatars/jane.png" };
+export const CAP_OWNER = { name: "Alice", handle: "@alice", src: "avatars/jane.png" };
 
 // The four shareholders who come on board, in order, with the stake each takes.
 // The first takes 3%, the rest 1% — so shareholders themselves differ.
