@@ -32,10 +32,8 @@ export default function Home() {
         </p>
 
         <p>
-          I&apos;m exploring a new instrument that lets us share equity in our
-          success across life &ndash; so that we can incentivize people to help
-          us succeed across everything we do, rather than only with individual
-          ideas (companies). Because it takes a village.
+          Working on a legal instrument that lets you build a cap table for your
+          life &ndash; like you can for a company. Because it takes a village.
         </p>
 
         <p>
